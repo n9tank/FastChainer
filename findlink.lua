@@ -30,7 +30,7 @@ local eqz=bnd(old,value)
 if st<=ed then
 local off=eqz.address-value
 if off>8 and off<len then
-min=eqz.min
+local min=eqz.min
 if min==nil or off<min then
 eqz.min=off
 end
@@ -40,10 +40,11 @@ end
 end
 function nextlvl(old,len,offmax)
 gg.internal3(len)
+local adr,link
 local new=gg.getResults(100000)
 for t=1,#new do
 adr=new[t]
-value=adr.value
+local value=adr.value
 link=find(old,value,offmax)
 adr.link=link
 end
@@ -52,8 +53,7 @@ for t=1,#new do
 adr=new[t]
 link=adr.link
 if link~=nil then
-off=link.address-adr.value
-if off==link.min then
+if link.address-adr.value==link.min then
 list[#list+1]=adr
 end
 end
