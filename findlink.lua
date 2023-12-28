@@ -1,12 +1,12 @@
 function bnd(old,value)
-st=1
-ed=#old
-mid=0
+local st=1
+local ed=#old
+local mid=0
 local adr
 while st<=ed do
 md=(st+ed)//2
-eqz=old[md]
-adr=eqz.address
+local eqz=old[md]
+local adr=eqz.address
 if math.abs(md-mid)<=1 then
 if value>adr and md+1<#old then
 eqz=old[md+1]
@@ -26,9 +26,9 @@ end
 end
 end
 function find(old,value,len)
-eqz=bnd(old,value)
+local eqz=bnd(old,value)
 if st<=ed then
-off=eqz.address-value
+local off=eqz.address-value
 if off>8 and off<len then
 min=eqz.min
 if min==nil or off<min then
@@ -40,14 +40,14 @@ end
 end
 function nextlvl(old,len,offmax)
 gg.internal3(len)
-new=gg.getResults(100000)
+local new=gg.getResults(100000)
 for t=1,#new do
 adr=new[t]
 value=adr.value
 link=find(old,value,offmax)
 adr.link=link
 end
-list={}
+local list={}
 for t=1,#new do
 adr=new[t]
 link=adr.link
@@ -61,9 +61,9 @@ end
 return list
 end
 function lvl(max,len,offmax,dump,fast)
-old=gg.getResults(1)
+local old=gg.getResults(1)
 for i=1,max do
-list=nextlvl(old,len,offmax)
+local list=nextlvl(old,len,offmax)
 if dump then
 for k,v in pairs(dump) do
 local adr=v.value
