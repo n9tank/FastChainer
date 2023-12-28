@@ -60,7 +60,7 @@ end
 end
 return list
 end
-function lvl(dump,max,fast)
+function lvl(max,len,offmax,dump,fast)
 old=gg.getResults(1)
 for i=1,max do
 list=nextlvl(old,len,offmax)
@@ -100,4 +100,4 @@ gg.searchNumber(src-off.."~"..src+off,32,false,gg.SIGN_EQUAL,src-offmax,src+offm
 dump=gg.getResults(10000)
 end
 gg.loadResults(old)
-lvl(dump,max,rff[2])
+lvl(max,len,offmax,dump,rff[2])
