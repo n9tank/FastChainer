@@ -60,6 +60,30 @@ end
 end
 return list
 end
+function lvl(dump,max,fast)
+old=gg.getResults(1)
+for i=1,max do
+list=nextlvl(old,len,offmax)
+if dump then
+for k,v in pairs(dump) do
+local adr=v.value
+link=bnd(old,adr)
+if link and link.address-adr==link.min then
+v.off=v.address-src
+v.link=link
+print(v)
+if fast then
+return
+end
+end
+end
+end
+old=list
+if dump==nil or i~=max then
+gg.loadResults(old)
+end
+end
+end
 gg.setRanges(32)
 data=gg.prompt({"深度","扫描偏移","最大偏移"},{1,1000,1000})
 max=tonumber(data[1])
@@ -70,41 +94,10 @@ src=gg.getSelectedListItems()[1]
 if src then
 src=src.address
 rff=gg.prompt({"内存区域","最短"},{3,true},{"number","checkbox"})
-end
-for i=1,max do
-list=nextlvl(old,len,offmax)
-if i==1 and src then
-top=list[1].value>>32
-off=tonumber(rff[1])
-if off>0 then
-top=top-off.."~"..top+off
-end
+off=tonumber(rff[1])<<32
 gg.clearResults()
-gg.searchNumber(top,4,false,gg.SIGN_EQUAL,src-offmax,src+offmax)
+gg.searchNumber(src-off.."~"..src+off,32,false,gg.SIGN_EQUAL,src-offmax,src+offmax)
 dump=gg.getResults(10000)
-for i=1,#dump do
-value=dump[i]
-value.address=value.address-4
-value.flags=32
 end
-dump=gg.getValues(dump)
-end
-if src then
-for k,v in pairs(dump) do
-local adr=v.value
-link=bnd(old,adr)
-if link and link.address-adr==link.min then
-v.off=v.address-src
-v.link=link
-print(v)
-if rff[2] then
-return
-end
-end
-end
-end
-if src==nil or i~=max  then
-gg.loadResults(list)
-end
-old=list
-end
+gg.loadResults(old)
+lvl(dump,max,rff[2])
