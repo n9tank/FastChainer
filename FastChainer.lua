@@ -125,6 +125,7 @@ while s.link do
 s=s.link
 str=str..">"..s.min
 end
+print(str)
 end
 data=gg.prompt({"寻找基址","深度","扫描偏移","最大偏移","最大条目"},{true,1,1000,1000,1},{"checkbox"})
 max=tonumber(data[2])
@@ -161,7 +162,6 @@ if of~=0 or data[1] then
 for k,v in pairs(out) do
 for i,s in pairs(v) do
 show(src,s,of)
-print(str)
 end
 end
 end
