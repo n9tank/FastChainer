@@ -68,8 +68,7 @@ end
 end
 return list
 end
-function rage(old,dump)
-local list={}
+function rage(old,dump,list)
 for k,v in pairs(dump) do
 local st=bnd(old,v['end'],st)
 if st then
@@ -90,7 +89,6 @@ end
 end
 end
 end
-return list
 end
 function lvl(max,len,offmax,dump,fast)
 local deep={}
@@ -98,10 +96,8 @@ local old=gg.getResults(1)
 for i=1,max do
 local list=nextlvl(old,len,offmax)
 if #dump>0 then
-v=rage(list,dump)
-deep[#deep+1]=v
-fast=fast-#v
-if fast<=0 then
+rage(list,dump,deep)
+if fast-#deep<=0 then
 return deep
 end
 end
@@ -169,10 +165,8 @@ end
 else
 out=lvl(max,len,offmax,src,tonumber(data[5]))
 if of~=0 or data[1] then
-for k,v in pairs(out) do
-for i,s in pairs(v) do
+for i,s in pairs(out) do
 show(src,s,of)
-end
 end
 end
 end
