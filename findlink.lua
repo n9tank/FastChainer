@@ -29,6 +29,7 @@ function x64(value)
 if x32 then
 value=value&0xffffffff
 end
+return value
 end
 function find(old,value,len)
 local eqz=bnd(old,value)
