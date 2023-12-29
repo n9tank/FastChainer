@@ -127,9 +127,13 @@ of=offmax
 else
 of=0
 src={}
+xl={["Xa"]=0,["Cb"]=0,["Cd"]=0}
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
 k=v.state
-if k=="Xa" or k=="Cb" or k=="Cd" then
+index=xl[k]
+if index then
+xl[k]=index+1
+v.index=index
 src[#src+1]=v
 end
 end
@@ -137,10 +141,18 @@ end
 out=lvl(max,len,offmax,src,tonumber(data[4]))
 for k,v in pairs(out) do
 for i,s in pairs(v) do
-s.off=s.address-(src[s.index].start+of)
+obj=src[s.index]
 if of==0 then
-s.index=src[s.index]
+str=obj.state.."["..obj.index..","..s.index.."]"..obj.internalName:match("[^/]+$").."="
+else
+str=""
 end
-print(s)
+adr=(obj.start+of)
+str=str..adr.."+"..s.address-adr
+while s.link do
+s=s.link
+str=str..">"..s.min
+end
+print(str)
 end
 end
