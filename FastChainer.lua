@@ -115,7 +115,7 @@ end
 function show(obj,s,of)
 obj=obj[s.index]
 if of==0 then
-str=obj.state..":"..obj.internalName:match("[^/]+$").."="
+str=obj.state.."["..obj.index.."]"..obj.internalName:match("[^/]+$").."="
 else
 str="["..s.index.."]"
 end
@@ -153,6 +153,7 @@ end
 end
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
 if xl[v.state]==0 and v.type:sub(2,2)=="w" then
+v.index=k
 src[#src+1]=v
 end
 end
