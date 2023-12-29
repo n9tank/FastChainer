@@ -143,27 +143,23 @@ else
 if data[1] then
 of=0
 src={}
-xl={}
-r=gg.getRanges()
-if r&8~=0 then
-xl.Cd=0
+xl={["Ca"]=8,["Cb"]=16,["Xa"]=16384}
+tag=xl[gg.getValuesRange(old)[1]]
+r=tag or gg.getRanges()
+for k,v in pairs(xl) do
+if r&v~=0 then
+xl[k]=0
 end
-if r&16~=0 then
-xl.Cb=0
-end
-if r&16384~=0 then
-xl.Xa=0
 end
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
-if xl[v.state] and v.type:sub(2,2)=="w" then
+if xl[v.state]==0 and v.type:sub(2,2)=="w" then
 src[#src+1]=v
 end
 end
 end
 end
-old=gg.getResults(1)
+if tag then
 adr=old.address
-if xl and xl[gg.getValuesRange(old)[1]] then
 for k,v in pairs(xl) do
 if v.start<=adr and v['end']>=adr then
 show(v,old,0)
