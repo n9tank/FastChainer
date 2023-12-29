@@ -146,19 +146,17 @@ src={}
 xl={}
 r=gg.getRanges()
 if r&8~=0 then
-xl.Cd=1
+xl.Cd=0
 end
 if r&16~=0 then
-xl.Cb=1
+xl.Cb=0
 end
 if r&16384~=0 then
-xl.Xa=1
+xl.Xa=0
 end
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
 k=v.state
-index=xl[k]
 if index and v.type:sub(2,2)=="w" then
-xl[k]=index+1
 src[#src+1]=v
 end
 end
