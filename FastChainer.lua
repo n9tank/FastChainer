@@ -160,6 +160,7 @@ index=xl[k]
 if index and v.type:sub(2,2)=="w" then
 xl[k]=index+1
 src[#src+1]=v
+v.index=index+1
 end
 end
 end
