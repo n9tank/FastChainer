@@ -24,7 +24,7 @@ end
 end
 end
 end
-x32=gg.getTargetInfo().x64
+x32=not gg.getTargetInfo().x64
 function x64(value)
 if x32 then
 value=value&0xffffffff
@@ -71,14 +71,16 @@ end
 function rage(old,dump)
 local list={}
 for k,v in pairs(dump) do
-local st=bnd(old,v['end'],st)+1
+local st=bnd(old,v['end'],st)
 if st then
+st=st+1
 for t=st-1,1,-1 do
 local tmp=old[t]
 local adr=tmp.address
 if adr<=v['end'] then
 if adr>=v.start then
 list[#list+1]=tmp
+tmp.index=k
 else
 break
 end
@@ -110,7 +112,6 @@ end
 end
 return deep
 end
-gg.setRanges(32)
 data=gg.prompt({"深度","扫描偏移","最大偏移","最大条目"},{1,1000,1000,1})
 max=tonumber(data[1])
 len=tonumber(data[2])
@@ -122,13 +123,24 @@ for k,v in pairs(src) do
 v=v.address
 src[k]={start=v-offmax,["end"]=v+offmax}
 end
+of=offmax
+else
+of=0
+src={}
+for k,v in pairs(gg.getRangesList("^/da*.so")) do
+k=v.state
+if k=="Xa" or k=="Cb" or k=="Cd" then
+src[#src+1]=v
+end
+end
 end
 out=lvl(max,len,offmax,src,tonumber(data[4]))
 for k,v in pairs(out) do
-src=src[k].start+offmax
 for i,s in pairs(v) do
-s.index=k
-s.off=s.address-src
+s.off=s.address-(src[s.index].start+of)
+if of==0 then
+s.index=src[s.index]
+end
 print(s)
 end
 end
