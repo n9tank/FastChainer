@@ -161,13 +161,14 @@ for k,v in pairs(xl) do
 if v.start<=old and v['end']>=old then
 old.index=k
 show(v,old,0)
+end
+end
 else
 out=lvl(max,len,offmax,src,tonumber(data[5]))
 if of~=0 or data[1] then
 for k,v in pairs(out) do
 for i,s in pairs(v) do
 show(src,s,of)
-end
 end
 end
 end
