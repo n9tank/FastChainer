@@ -127,6 +127,7 @@ out=lvl(max,len,offmax,src,tonumber(data[4]))
 for k,v in pairs(out) do
 src=src[k].start+offmax
 for i,s in pairs(v) do
+s.index=k
 s.off=s.address-src
 print(s)
 end
