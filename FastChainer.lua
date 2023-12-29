@@ -112,10 +112,24 @@ end
 end
 return deep
 end
-data=gg.prompt({"深度","扫描偏移","最大偏移","最大条目"},{1,1000,1000,1})
-max=tonumber(data[1])
-len=tonumber(data[2])
-offmax=tonumber(data[3])
+function show(obj,s,of)
+obj=obj[s.index]
+if of==0 then
+str=obj.state.."["..obj.index..","..s.index.."]"..obj.internalName:match("[^/]+$").."="
+else
+str=""
+end
+adr=(obj.start+of)
+str=str..adr.."+"..s.address-adr
+while s.link do
+s=s.link
+str=str..">"..s.min
+end
+end
+data=gg.prompt({"寻找基址","深度","扫描偏移","最大偏移","最大条目"},{true,1,1000,1000,1},{"checkbox"})
+max=tonumber(data[2])
+len=tonumber(data[3])
+offmax=tonumber(data[4])
 old=gg.getResults(1)
 src=gg.getSelectedListItems()
 if #src>0 then
@@ -125,6 +139,7 @@ src[k]={start=v-offmax,["end"]=v+offmax}
 end
 of=offmax
 else
+if data[1] then
 of=0
 src={}
 xl={["Xa"]=0,["Cb"]=0,["Cd"]=0}
@@ -138,21 +153,22 @@ src[#src+1]=v
 end
 end
 end
-out=lvl(max,len,offmax,src,tonumber(data[4]))
+end
+old=gg.getResults(1)
+if xl and xl[gg.getValuesRange(old)[1]] then
+out=lvl(max,len,offmax,src,tonumber(data[5]))
+if of~=0 or data[1] then
 for k,v in pairs(out) do
 for i,s in pairs(v) do
-obj=src[s.index]
-if of==0 then
-str=obj.state.."["..obj.index..","..s.index.."]"..obj.internalName:match("[^/]+$").."="
-else
-str=""
-end
-adr=(obj.start+of)
-str=str..adr.."+"..s.address-adr
-while s.link do
-s=s.link
-str=str..">"..s.min
-end
+show(src,s,of)
 print(str)
+end
+end
+end
+else
+for k,v in pairs(xl) do
+if v.start<=old and v['end']>=old then
+old=.index=k
+show(v,old,0)
 end
 end
