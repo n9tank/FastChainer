@@ -155,8 +155,7 @@ if r&16384~=0 then
 xl.Xa=0
 end
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
-k=v.state
-if index and v.type:sub(2,2)=="w" then
+if xl[v.state] and v.type:sub(2,2)=="w" then
 src[#src+1]=v
 end
 end
