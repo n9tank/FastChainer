@@ -1,17 +1,16 @@
-function bnd(old,value)
-local st=1
+function bnd(old,value,st)
+st=st or 1
 local ed=#old
 local mid=0
 local adr
 while st<=ed do
 md=(st+ed)//2
-local eqz=old[md]
-local adr=eqz.address
+local adr=old[md].address
 if math.abs(md-mid)<=1 then
 if value>adr and md+1<#old then
-eqz=old[md+1]
+return md+1
 end
-return eqz
+return md
 end
 mid=md
 if adr<value then
@@ -20,14 +19,15 @@ else
 if adr>value then
 ed=mid-1
 else
-return eqz
+return md
 end
 end
 end
 end
 function find(old,value,len)
 local eqz=bnd(old,value)
-if st<=ed then
+if eqz then
+eqz=old[eqz]
 local off=eqz.address-value
 if off>8 and off<len then
 local min=eqz.min
@@ -60,22 +60,42 @@ end
 end
 return list
 end
+function rage(old,dump)
+local list={}
+for k,v in pairs(dump) do
+local st=bnd(old,v['end'],st)
+if st then
+for t=st,1,-1 do
+local tmp=old[t]
+local adr=tmp.address
+if adr<=v['end'] then
+if adr>=v.start then
+tmp.src=v
+tmp.index=k
+list[#list+1]=tmp
+else
+break
+end
+else
+st=t
+end
+end
+st=st+1
+end
+end
+return list
+end
 function lvl(max,len,offmax,dump,fast)
+local deep={}
 local old=gg.getResults(1)
 for i=1,max do
 local list=nextlvl(old,len,offmax)
-if dump then
-for k,v in pairs(dump) do
-local adr=v.value
-link=bnd(old,adr)
-if link and link.address-adr==link.min then
-v.off=v.address-src
-v.link=link
-print(v)
-if fast then
-return
-end
-end
+if #dump>0 then
+v=rage(list,dump)
+deep[#deep+1]=v
+fast=fast-#v
+if fast<=0 then
+return deep
 end
 end
 old=list
@@ -83,21 +103,24 @@ if dump==nil or i~=max then
 gg.loadResults(old)
 end
 end
+return deep
 end
 gg.setRanges(32)
-data=gg.prompt({"深度","扫描偏移","最大偏移"},{1,1000,1000})
+data=gg.prompt({"深度","扫描偏移","最大偏移","最大条目"},{1,1000,1000,1})
 max=tonumber(data[1])
 len=tonumber(data[2])
 offmax=tonumber(data[3])
 old=gg.getResults(1)
-src=gg.getSelectedListItems()[1]
-if src then
-src=src.address
-rff=gg.prompt({"内存区域","最短"},{3,true},{"number","checkbox"})
-off=tonumber(rff[1])<<32
-gg.clearResults()
-gg.searchNumber(src-off.."~"..src+off,32,false,gg.SIGN_EQUAL,src-offmax,src+offmax)
-dump=gg.getResults(10000)
+src=gg.getSelectedListItems()
+if #src>0 then
+for k,v in pairs(src) do
+v=v.address
+src[k]={start=v-offmax,["end"]=v+offmax}
 end
-gg.loadResults(old)
-lvl(max,len,offmax,dump,rff[2])
+end
+out=lvl(max,len,offmax,src,tonumber(data[4]))
+for k,v in pairs(out) do
+for i,s in pairs(v) do
+print(s)
+end
+end
