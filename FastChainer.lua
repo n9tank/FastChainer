@@ -115,7 +115,7 @@ end
 function show(obj,s,of)
 obj=obj[s.index]
 if of==0 then
-str=obj.state.."["..obj.index"]"..obj.internalName:match("[^/]+$").."="
+str=obj.state..":"..obj.internalName:match("[^/]+$").."="
 else
 str="["..s.index.."]"
 end
@@ -160,7 +160,6 @@ index=xl[k]
 if index and v.type:sub(2,2)=="w" then
 xl[k]=index+1
 src[#src+1]=v
-v.index=index
 end
 end
 end
