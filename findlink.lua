@@ -70,8 +70,6 @@ local tmp=old[t]
 local adr=tmp.address
 if adr<=v['end'] then
 if adr>=v.start then
-tmp.src=v
-tmp.index=k
 list[#list+1]=tmp
 else
 break
@@ -120,7 +118,9 @@ end
 end
 out=lvl(max,len,offmax,src,tonumber(data[4]))
 for k,v in pairs(out) do
+src=src[k].start+offmax
 for i,s in pairs(v) do
+s.off=s.address-src
 print(s)
 end
 end
