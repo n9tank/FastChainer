@@ -71,9 +71,9 @@ end
 function rage(old,dump)
 local list={}
 for k,v in pairs(dump) do
-local st=bnd(old,v['end'],st)
+local st=bnd(old,v['end'],st)+1
 if st then
-for t=st,1,-1 do
+for t=st-1,1,-1 do
 local tmp=old[t]
 local adr=tmp.address
 if adr<=v['end'] then
@@ -86,7 +86,6 @@ else
 st=t
 end
 end
-st=st+1
 end
 end
 return list
