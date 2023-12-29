@@ -157,6 +157,11 @@ end
 end
 old=gg.getResults(1)
 if xl and xl[gg.getValuesRange(old)[1]] then
+for k,v in pairs(xl) do
+if v.start<=old and v['end']>=old then
+old.index=k
+show(v,old,0)
+else
 out=lvl(max,len,offmax,src,tonumber(data[5]))
 if of~=0 or data[1] then
 for k,v in pairs(out) do
@@ -165,10 +170,5 @@ show(src,s,of)
 end
 end
 end
-else
-for k,v in pairs(xl) do
-if v.start<=old and v['end']>=old then
-old=.index=k
-show(v,old,0)
 end
 end
