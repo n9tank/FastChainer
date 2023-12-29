@@ -156,9 +156,10 @@ end
 end
 end
 old=gg.getResults(1)
+adr=old.address
 if xl and xl[gg.getValuesRange(old)[1]] then
 for k,v in pairs(xl) do
-if v.start<=old and v['end']>=old then
+if v.start<=adr and v['end']>=adr then
 old.index=k
 show(v,old,0)
 end
