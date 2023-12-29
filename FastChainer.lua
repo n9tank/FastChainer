@@ -145,13 +145,13 @@ of=0
 src={}
 xl={}
 r=gg.getRanges()
-if r&8==1 then
+if r&8~=0 then
 xl.Cd=1
 end
-if r&16==1 then
+if r&16~=0 then
 xl.Cb=1
 end
-if r&16384==1 then
+if r&16384~=0 then
 xl.Xa=1
 end
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
