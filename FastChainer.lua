@@ -147,7 +147,7 @@ xl={["Xa"]=0,["Cb"]=0,["Cd"]=0}
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
 k=v.state
 index=xl[k]
-if index then
+if index and v.type:sub(2,2)=="w" then
 xl[k]=index+1
 v.index=index
 src[#src+1]=v
