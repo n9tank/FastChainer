@@ -115,9 +115,9 @@ end
 function show(obj,s,of)
 obj=obj[s.index]
 if of==0 then
-str=obj.state.."["..obj.index..","..s.index.."]"..obj.internalName:match("[^/]+$").."="
+str=obj.state.."["..obj.index"]"..obj.internalName:match("[^/]+$").."="
 else
-str=""
+str="["..s.index.."]"
 end
 adr=(obj.start+of)
 str=str..adr.."+"..s.address-adr
@@ -143,13 +143,22 @@ else
 if data[1] then
 of=0
 src={}
-xl={["Xa"]=0,["Cb"]=0,["Cd"]=0}
+xl={}
+r=gg.getRanges()
+if r&8==1 then
+xl.Cd=0
+end
+if r&16==1 then
+xl.Cb=0
+end
+if r&16384==1 then
+xl.Xa=0
+end
 for k,v in pairs(gg.getRangesList("^/da*.so")) do
 k=v.state
 index=xl[k]
 if index and v.type:sub(2,2)=="w" then
 xl[k]=index+1
-v.index=index
 src[#src+1]=v
 end
 end
@@ -160,7 +169,6 @@ adr=old.address
 if xl and xl[gg.getValuesRange(old)[1]] then
 for k,v in pairs(xl) do
 if v.start<=adr and v['end']>=adr then
-old.index=k
 show(v,old,0)
 end
 end
