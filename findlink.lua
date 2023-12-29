@@ -24,6 +24,12 @@ end
 end
 end
 end
+x32=gg.getTargetInfo().x64
+function x64(value)
+if x32 then
+value=value&0xffffffff
+end
+end
 function find(old,value,len)
 local eqz=bnd(old,value)
 if eqz then
@@ -44,7 +50,8 @@ local adr,link
 local new=gg.getResults(100000)
 for t=1,#new do
 adr=new[t]
-local value=adr.value
+local value=x64(adr.value)
+adr.value=value
 link=find(old,value,offmax)
 adr.link=link
 end
