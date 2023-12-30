@@ -104,7 +104,6 @@ len=tonumber(data[3])
 offmax=tonumber(data[4])
 old=gg.getResults(1)
 src=gg.getSelectedListItems()
-tm=os.clock()
 if #src>0 then
 for k,v in pairs(src) do
 v=v.address
@@ -146,4 +145,3 @@ show(src,s,of)
 end
 end
 end
-print(tm-os.clock())
