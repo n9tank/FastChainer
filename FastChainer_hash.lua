@@ -1,5 +1,5 @@
 function bnd(old,value,offmax)
-local next=old[value/offmax]
+local next=old[value//offmax]
 while next and value<next.address do
 adr=next
 next=adr.next
@@ -44,10 +44,10 @@ if link.address-adr.value==link.min then
 t=adr.address
 adr.next=last
 last=adr
-if list[t/offmax] then
+if list[t//offmax] then
 list[t]=adr
 else
-list[t/offmax]=adr
+list[t//offmax]=adr
 end
 end
 end
