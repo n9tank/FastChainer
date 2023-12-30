@@ -6,11 +6,6 @@ end
 return adr
 end
 x32=not gg.getTargetInfo().x64
-if x32 then
-mu=4
-else
-mu=8
-end
 function x64(value)
 if x32 then
 value=value&0xffffffff
@@ -21,7 +16,7 @@ function find(old,value,len)
 local eqz=bnd(old,value,len)
 if eqz then
 local off=eqz.address-value
-if off>=mu and off<len then
+if off<len then
 local min=eqz.min
 if min==nil or off<min then
 eqz.min=off
