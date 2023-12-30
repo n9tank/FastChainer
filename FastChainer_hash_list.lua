@@ -1,6 +1,6 @@
 function bnd(old,value,offmax)
 local adr=old[value//offmax]
-while adr and value>=adr.address do
+while adr and value>adr.address do
 adr=adr.next
 end
 return adr
