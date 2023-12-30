@@ -83,8 +83,9 @@ end
 end
 return deep
 end
-function show(obj,s,of)
-obj=obj[s.index]
+function show(src,out,of)
+for k,s in pairs(out) do
+obj=src[s.index]
 if of==0 then
 str=obj.state.."["..obj.index.."]"..obj.internalName:match("[^/]+$").."="
 else
@@ -97,6 +98,28 @@ s=s.link
 str=str..">"..s.min
 end
 print(str)
+end
+end
+function checklvl(src)
+local new={}
+local sr
+while #src>0 do
+next=gg.getValues(src)
+local list={}
+for k,v in pairs(src) do
+if v.value==next[k].value then
+nx=v.next
+if nx then
+list[nx.address]=nx
+nx.src=v.src or v
+else
+new[#new+1]=v.src or v
+end
+end
+end
+src=list
+end
+return new
 end
 data=gg.prompt({"寻找基址","深度","扫描偏移","最大偏移","最大条目"},{true,1,1000,1000,1},{"checkbox"})
 max=tonumber(data[2])
@@ -133,15 +156,17 @@ end
 if tag then
 adr=old.address
 for k,v in pairs(xl) do
+out={}
 if v.start<=adr and v['end']>=adr then
-show(v,old,0)
+out[#list+1]=v
 end
 end
 else
 out=lvl(max,len,offmax,src,tonumber(data[5]))
+end
+while gg.alert("余剩"..#out.."条链路","确定","改善")==2 do
+out=checklvl(out)
+end
 if of~=0 or data[1] then
-for i,s in pairs(out) do
-show(src,s,of)
-end
-end
+show(src,out,of)
 end
