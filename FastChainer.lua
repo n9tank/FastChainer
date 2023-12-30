@@ -102,7 +102,7 @@ return deep
 end
 end
 old=list
-if dump==nil or i~=max then
+if #dump>0 or i~=max then
 gg.loadResults(old)
 end
 end
