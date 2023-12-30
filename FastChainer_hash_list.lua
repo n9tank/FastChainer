@@ -50,15 +50,15 @@ deep[#deep+1]=adr
 adr.index=top
 end
 t=adr.address
-if last then
-last.next=adr
-end
 last=adr
-if list[t//offmax] then
+lf=t//offmax
+if lf==rf then
+last.next=adr
 list[t]=adr
 else
-list[t//offmax]=adr
+list[lf]=adr
 end
+rf=lf
 end
 end
 return list,hash
