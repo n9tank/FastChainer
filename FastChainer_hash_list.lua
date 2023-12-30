@@ -61,14 +61,14 @@ end
 rf=lf
 end
 end
-return list,hash
+return list
 end
 function lvl(max,len,offmax,dump,fast)
 local deep={}
 local old=gg.getResults(1)[1]
 old={[old.address//offmax]=old}
 for i=1,max do
-local list,hash=nextlvl(old,len,offmax,dump,deep)
+local list=nextlvl(old,len,offmax,dump,deep)
 if fast-#deep<=0 then
 return deep
 end
