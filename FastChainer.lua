@@ -92,11 +92,10 @@ local link={}
 for k,s in pairs(out) do
 obj=src[s.index]
 if of~=0 then
-str=s.index..">"
+str=s.index..">"..s.address.."="
 else
-str=""
+str=s.address.."="
 end
-str=str..s.address.."="
 adr=s.address-(obj.start+of)
 local next
 if of==0 then
