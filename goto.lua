@@ -50,7 +50,6 @@ return next
 end
 function getAdr(list,adr)
 adr={value=adr}
-end
 for i,t in pairs(list) do
 if i>0 then
 adr=adrCache(adr.value+t)
