@@ -24,6 +24,7 @@ local next
 local adr={value=adr}
 local last=tree
 for k,v in pairs(list) do
+if k>0 then
 next=last[v]
 if next==nil then
 next={}
@@ -34,7 +35,8 @@ else
 adr=next.adr
 end
 last=next
-end 
+end
+end
 return adr
 end
 heep={}
