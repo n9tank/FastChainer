@@ -1,6 +1,6 @@
 list=gg.getRangesList("^/da*.s")
 xl={Cd={},Cb={},Xa={}}
-for k,v in mrg do
+for k,v in pairs(list) do
 put=xl[v.state]
 if put then
 put[v.internalName:match("[^/]+^")]=v.start
