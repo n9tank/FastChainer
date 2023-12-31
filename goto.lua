@@ -47,9 +47,6 @@ end
 return next
 end
 function getAdr(list,adr)
-if not adr then
-adr=mrg[list[-1]][list[0]]
-end
 adr={value=adr}
 end
 for i,t in pairs(list) do
@@ -60,5 +57,5 @@ end
 return adr
 end
 for k,v in pairs(test) do
-print(getAdr(v).address)
+print(getAdr(v,xl[v[-1]][v[0]]).address)
 end
