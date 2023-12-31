@@ -3,7 +3,7 @@ xl={Cd={},Cb={},Xa={}}
 for k,v in pairs(list) do
 put=xl[v.state]
 if put then
-put[v.internalName:match("[^/]+^")]=v.start
+put[v.internalName:match("[^/]+$")]=v.start
 end
 end
 tree={}
