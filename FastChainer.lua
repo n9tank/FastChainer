@@ -110,7 +110,7 @@ next=next.."}"
 print(str..next)
 file:write(next..",")
 end
-file:write("}\ndofile(gg.getFile()..'go.lua')")
+file:write("}\ndofile(gg.getFile():match('(.*/)')..'goto.lua')")
 file:close()
 end
 data=gg.prompt({"寻找基址","深度","扫描偏移","最大偏移","最大条目"},{true,1,1000,1000,10},{"checkbox"})
@@ -137,7 +137,7 @@ if r&v~=0 then
 xl[k]=0
 end
 end
-for k,v in pairs(gg.getRangesList("^/da*.so")) do
+for k,v in pairs(gg.getRangesList("^/da*.s")) do
 if xl[v.state]==0 and v.type:sub(2,2)=="w" then
 v.index=k
 src[#src+1]=v

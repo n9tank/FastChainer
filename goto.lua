@@ -1,4 +1,4 @@
-mrg=gg.getRangesList("^/da*.so")
+mrg=gg.getRangesList("^/da*.s")
 tree={}
 x32=gg.getTargetInfo().x64
 if x32 then
