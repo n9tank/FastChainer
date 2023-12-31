@@ -179,13 +179,13 @@ end
 end
 end
 end
-]]
 for k,v in pairs(deep) do
 if not next[v] then
 deep[k]=nil
 end
 end
 end
+]]
 data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
 max=tonumber(data[2])
 offmax=tonumber(data[3])
