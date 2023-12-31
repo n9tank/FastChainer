@@ -91,11 +91,6 @@ file:write("test={")
 local link={}
 for k,s in pairs(out) do
 obj=src[s.index]
-if of~=0 then
-str=s.index..">"..s.address.."="
-else
-str=s.address.."="
-end
 adr=s.address-(obj.start+of)
 local next
 if of==0 then
@@ -105,17 +100,47 @@ next="{"
 end
 link[1]=adr
 len=1
-while s.link do
-s=s.link
+v=s.link
+while v do
 len=len+1
-link[len]=s.min
+link[len]=v.min
+v=v.link
 end
 next=next..table.concat(link,",",1,len).."},"
-print(str..next)
+print(string.format("%d>%x=%s",s.index,s.address,next))
 file:write(next)
 end
 file:write("}\ndofile(gg.getFile():match('(.*/)')..'goto.lua')")
 file:close()
+end
+function check(deep)
+list=deep
+while #list>1 do
+next=gg.getValues(list)
+list={}
+for k,s in pairs(deep) do
+v=s.go or s
+if v and v.next then
+if v==s then
+adr=k
+else
+adr=v.address
+end
+gt=next[adr]
+if gt then
+if v.value==gt.value then
+to=v.next
+s.go=to
+list[to.address]=to
+else
+deep[k]=nil
+end
+else
+s.go=false
+end
+end
+end
+end
 end
 data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
 max=tonumber(data[2])
@@ -158,6 +183,7 @@ end
 end
 else
 out=lvl(max,offmax,src,tonumber(data[4]))
+check(out)
 end
 if of~=0 or data[1] then
 show(src,out,of)
