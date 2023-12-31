@@ -88,8 +88,8 @@ end
 function show(src,out,of)
 file=io.output(os.time()..".lua")
 file:write("test={")
+local link={}
 for k,s in pairs(out) do
-local next="{"
 obj=src[s.index]
 if of~=0 then
 str=s.index..">"
@@ -98,17 +98,22 @@ str=""
 end
 str=str..s.address.."="
 adr=s.address-(obj.start+of)
+local next
 if of==0 then
-next=next.."[-1]='"..obj.state.."',[0]='"..obj.internalName:match("[^/]+$").."',"
+next="{[-1]='"..obj.state.."',[0]='"..obj.internalName:match("[^/]+$").."',"
+else
+next="{"
 end
-next=next..adr
+link[1]=adr
+len=1
 while s.link do
 s=s.link
-next=next..","..s.min
+len=len+1
+link[len]=s.min
 end
-next=next.."}"
+next=next..table.concat(link,",",1,len).."},"
 print(str..next)
-file:write(next..",")
+file:write(next)
 end
 file:write("}\ndofile(gg.getFile():match('(.*/)')..'goto.lua')")
 file:close()
