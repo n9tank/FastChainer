@@ -50,7 +50,6 @@ function getAdr(list,adr)
 if not adr then
 adr=mrg[list[-1]][list[0]]
 end
-print(adr)
 adr={value=adr}
 end
 for i,t in pairs(list) do
