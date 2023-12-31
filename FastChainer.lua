@@ -124,14 +124,14 @@ if v and v.next then
 if v==s then
 adr=k
 else
-adr=v.address
+adr=v
 end
 gt=next[adr]
 if gt then
 if v.value==gt.value then
 to=v.next
 s.go=to
-list[to.address]=to
+list[to]=to
 else
 deep[k]=nil
 end
@@ -142,6 +142,44 @@ end
 end
 end
 end
+--[[
+function checkTree(list)
+--tree fast
+all={}
+while #list>1 do
+lvl={}
+all[#all+1]=lvl
+for k,v in pairs(list) do
+go=v.next or k
+if go then
+put=lvl[go]
+if not put then
+put={}
+lvl[go]=put
+end
+put[#put+1]=v
+end
+end
+list=lvl
+end
+list={}
+for k,v in pairs(all[#all]) do
+list[k]=k
+end
+for k=#all,1,-1 do
+v=all[k]
+next=gg.getValues(list)
+list={}
+for i,t in pairs(v) do
+if i.value==next[i].value then
+for m,n in pairs(t) do
+list[n]=n
+end
+end
+end
+end
+end
+]]
 data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
 max=tonumber(data[2])
 offmax=tonumber(data[3])
@@ -184,7 +222,7 @@ end
 else
 out=lvl(max,offmax,src,tonumber(data[4]))
 check(out)
-end
 if of~=0 or data[1] then
 show(src,out,of)
+end
 end
