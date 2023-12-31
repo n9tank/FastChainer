@@ -1,4 +1,11 @@
-mrg=gg.getRangesList("^/da*.s")
+list=gg.getRangesList("^/da*.s")
+xl={Cd={},Cb={},Xa={}}
+for k,v in mrg do
+put=xl[v.state]
+if put and then
+put[v.internalName:match("[^/]+^")]=v.start
+end
+end
 tree={}
 x32=gg.getTargetInfo().x64
 if x32 then
@@ -41,11 +48,7 @@ return next
 end
 function getAdr(list,adr)
 if not adr then
-for k,v in pairs(mrg) do
-if v.state==list[-1] and v.type:sub(2,2)=="w" and string.find(v.internalName,list[0],0,true) then
-adr=v.start
-break
-end
+adr=mrg[list[-1]][list[0]]
 end
 print(adr)
 adr={value=adr}
