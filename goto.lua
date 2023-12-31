@@ -40,8 +40,15 @@ end
 return next
 end
 function getAdr(list,adr)
-if adr==nil then
-adr={value=mrg[list[0]].start}
+if not adr then
+for k,v in pairs(mrg) do
+if v.state==list[-1] and v.type:sub(2,2)=="w" and string.find(v.internalName,list[0],0,true) then
+adr=v.start
+break
+end
+end
+print(adr)
+adr={value=adr}
 end
 for i,t in pairs(list) do
 if i>0 then

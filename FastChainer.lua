@@ -18,7 +18,7 @@ if eqz then
 local off=eqz.address-value
 if off<len then
 local min=eqz.min
-if min==nil or off<min then
+if not min or off<min then
 eqz.min=off
 end
 return eqz
@@ -91,15 +91,15 @@ file:write("test={")
 for k,s in pairs(out) do
 local next="{"
 obj=src[s.index]
-if of==0 then
-str=obj.state..">"..obj.internalName:match("[^/]+$")..">"
-else
+if of~=0 then
 str=s.index..">"
+else
+str=""
 end
 str=str..s.address.."="
 adr=s.address-(obj.start+of)
 if of==0 then
-next=next.."[0]="..obj.index..","
+next=next.."[-1]='"..obj.state.."',[0]='"..obj.internalName:match("[^/]+$").."',"
 end
 next=next..adr
 while s.link do
