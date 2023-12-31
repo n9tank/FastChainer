@@ -25,8 +25,8 @@ return eqz
 end
 end
 end
-function nextlvl(old,len,offmax,src,deep)
-gg.internal3(len)
+function nextlvl(old,offmax,src,deep)
+gg.internal3(offmax)
 local link
 local new=gg.getResults(100000)
 for t,adr in pairs(new) do
@@ -65,12 +65,12 @@ end
 end
 return list
 end
-function lvl(max,len,offmax,dump,fast)
+function lvl(max,offmax,dump,fast)
 local deep={}
 local old=gg.getResults(1)[1]
 old={[old.address//offmax]=old}
 for i=1,max do
-local list=nextlvl(old,len,offmax,dump,deep)
+local list=nextlvl(old,offmax,dump,deep)
 if fast-#deep<=0 then
 return deep
 end
@@ -117,9 +117,8 @@ end
 file:write("}\ndofile(gg.getFile():match('(.*/)')..'goto.lua')")
 file:close()
 end
-data=gg.prompt({"寻找基址","深度","扫描偏移","最大偏移","最大条目"},{true,1,1000,1000,10},{"checkbox"})
+data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
 max=tonumber(data[2])
-len=tonumber(data[3])
 offmax=tonumber(data[4])
 old=gg.getResults(1)
 src=gg.getSelectedListItems()
@@ -158,7 +157,7 @@ out[#list+1]=v
 end
 end
 else
-out=lvl(max,len,offmax,src,tonumber(data[5]))
+out=lvl(max,offmax,src,tonumber(data[5]))
 end
 if of~=0 or data[1] then
 show(src,out,of)
