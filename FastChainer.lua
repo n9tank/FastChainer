@@ -119,7 +119,7 @@ file:close()
 end
 data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
 max=tonumber(data[2])
-offmax=tonumber(data[4])
+offmax=tonumber(data[3])
 old=gg.getResults(1)
 src=gg.getSelectedListItems()
 if #src>0 then
@@ -157,7 +157,7 @@ out[#list+1]=v
 end
 end
 else
-out=lvl(max,offmax,src,tonumber(data[5]))
+out=lvl(max,offmax,src,tonumber(data[4]))
 end
 if of~=0 or data[1] then
 show(src,out,of)
