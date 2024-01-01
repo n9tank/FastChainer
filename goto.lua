@@ -82,7 +82,7 @@ end
 function cleartree(tree)
 for k,v in pairs(tree) do
 heep[k]=nil
-local tree=v.tree
+tree=v.tree
 if tree then
 cleartree(tree)
 end
