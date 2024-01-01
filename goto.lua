@@ -25,7 +25,7 @@ local adr={value=adr}
 local last=tree
 for k,v in ipairs(list) do
 next=last[v]
-if next then
+if next and next.adr then
 adr=next.adr
 else
 next={}
@@ -35,7 +35,7 @@ next.adr=adr
 end
 last=next
 end
-return adr
+return next
 end
 heep={}
 function adrCache(adr)
