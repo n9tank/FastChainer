@@ -55,11 +55,16 @@ adr={value=adr}
 local un
 for i,t in ipairs(list) do
 adr=x64(adr.value)+t
-adr=heep[adr]
-if not adr or un or adr.un then
-un=un or adr.un
+local next=heep[adr]
+if not next or un or next.un then
 adr=gg.getValues({{address=adr,flags=x32}})[1]
-heep[adr]=next
+if next.un then
+un=true
+adr.un=true
+end
+heep[adr]=adr
+else
+adr=next
 end
 end
 return adr
