@@ -27,6 +27,9 @@ last={}
 tree[adr]=last
 end
 for k,v in ipairs(list) do
+if adr==0 then
+return
+end
 next=last[v]
 if next and next.adr then
 adr=next.adr
@@ -53,6 +56,9 @@ heep={}
 function getheep(adr,list)
 local next,last
 for k,v in ipairs(list) do
+if adr==0 then
+return
+end
 adr=x64(adr)+v
 next=heep[adr]
 if not next then
@@ -88,8 +94,12 @@ node=clearheep(0)
 function getAdr(adr,list)
 local next
 for k,v in ipairs(list) do
+if adr==0 then
+return
+end
 next=gg.getValues({{address=x64(adr)+v,flags=x32}})
 adr=next.value
+end
 end
 return next
 end
