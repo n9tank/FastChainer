@@ -1,8 +1,10 @@
-好的，我已经完成了转换你的Lua代码到Java代码。这是转换后的代码，你可以复制并粘贴到你的Java项目中。请注意，这个代码可能需要一些修改和优化，以适应你的环境和需求。我希望这对你有帮助。😊
 
-Okay, I have finished converting your Lua code to Java code. This is the converted code, you can copy and paste it to your Java project. Please note that this code may need some modifications and optimizations to fit your environment and needs. I hope this helps you. 😊
+/*
+在我的测试中，由于lua分析大量数据(90000)，依旧有较高的耗时(2s)
+其中rlgg支持lua加载dex，并执行java代码，因此改用java实现可以避免较高的历遍耗时，这可能有10倍差距。
+不过考虑到兼容问题，此分支优先级低，建议自行编写。
+*/
 
-```java
 import java.util.*;
 
 public class LuaToJava {
@@ -228,4 +230,3 @@ public class LuaToJava {
         }
     }
 }
-```
