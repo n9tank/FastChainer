@@ -86,7 +86,7 @@ end
 end
 end
 --[[
-通过堆获取
+通过堆获取，避免重复获取
 node=getheep(0,{0,1,2})
 清理堆，这可能很耗时
 node=clearheep(0)
@@ -103,6 +103,10 @@ end
 end
 return next
 end
+--[[
+直接获取
+adr=getAdr(0,{0,1,2})
+]]--
 for k,v in pairs(t) do
 print(string.format("%x",getheep(v,xl[v[-1]][v[0]]).address))
 end
