@@ -110,7 +110,7 @@ next=next..table.concat(link,",",1,len).."},"
 print(string.format("%d>%x=%s",s.index,s.address,next))
 file:write(next)
 end
-file:write("}\ndofile(gg.getFile():match('(.*/)')..'goto.lua')")
+file:write("}\ndofile('goto.lua')")
 file:close()
 end
 function check(deep)
