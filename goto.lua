@@ -45,27 +45,33 @@ end
 使用树优化你的代码，多个同路径避免重复获取。
 node=treeCache(0,{0,1,2})
 print(node.adr)
-重建树（清空所有子目标）
+重建树（清空自己和所有子目标）
 node.adr=nil
 node=treeCache(0,{0,1,2})
 ]]--
---为优化程序性能请尽量避免使用堆，所以以下代码仅供测试
 heep={}
-function adrCache(adr)
-local next=heep[adr]
-if not next then
-next=gg.getValues({{address=x64(adr),flags=x32}})[1]
+function getheep(adr,list)
+adr={value=adr}
+local un
+for i,t in ipairs(list) do
+adr=x64(adr.value)+t
+adr=heep[adr]
+if not adr or un or adr.un then
+un=un or adr.un
+adr=gg.getValues({{address=adr,flags=x32}})[1]
 heep[adr]=next
 end
-return next
-end
-function getAdr(list,adr)
-adr={value=adr}
-for i,t in ipairs(list) do
-adr=adrCache(adr.value+t)
 end
 return adr
 end
+--[[
+该函数性能比tree更优秀，但是这存在一些释放的问题
+node=getheep(0,{0,1,2})
+重新获取
+node.un=true
+node=getheep(0,{0,1,2})
+node.un=false
+]]--
 for k,v in pairs(t) do
-print(string.format("%x",getAdr(v,xl[v[-1]][v[0]]).address))
+print(string.format("%x",getheep(v,xl[v[-1]][v[0]]).address))
 end
