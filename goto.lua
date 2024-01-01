@@ -80,11 +80,19 @@ end
 end
 end
 --[[
-该函数性能比tree更优秀，但是这存在一些释放的问题
+通过堆获取
 node=getheep(0,{0,1,2})
 清理堆，这可能很耗时
 node=clearheep(0)
 ]]--
+function getAdr(adr,list)
+local next
+for k,v in ipairs(list) do
+next=gg.getValues({{address=x64(adr)+v,flags=x32}})
+adr=next.value
+end
+return next
+end
 for k,v in pairs(t) do
 print(string.format("%x",getheep(v,xl[v[-1]][v[0]]).address))
 end
