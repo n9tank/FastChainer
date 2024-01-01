@@ -63,12 +63,15 @@ adr=x64(adr)+v
 next=heep[adr]
 if not next then
 next=gg.getValues({{address=adr,flags=x32}})[1]
+last={}
+next.tree=last
 if last then
 last[adr]=adr
 end
 heep[adr]=next
+else
+last=next.tree
 end
-last=next
 adr=next.value
 end
 return next
@@ -77,7 +80,7 @@ function clearheep(adr)
 local next=heep[adr]
 if next then
 heep[adr]=nil
-for k,v in pairs(next) do
+for k,v in pairs(next.tree) do
 if k==v then
 heep[k]=nil
 clearheep(k)
