@@ -60,32 +60,39 @@ if adr==0 then
 return
 end
 adr=x64(adr)+v
+if next then
+last=next.tree
+if not last then
+last={}
+next.tree=last
+end
+end
 next=heep[adr]
 if not next then
 next=gg.getValues({{address=adr,flags=x32}})[1]
-last={}
-next.tree=last
 if last then
-last[adr]=adr
+last[adr]=next
 end
 heep[adr]=next
-else
-last=next.tree
 end
 adr=next.value
 end
 return next
 end
+function cleartree(tree)
+for k,v in pairs(next.tree) do
+heep[k]=nil
+local tree=v.tree
+if tree then
+cleartree(tree)
+end
+end
+end
 function clearheep(adr)
 local next=heep[adr]
 if next then
 heep[adr]=nil
-for k,v in pairs(next.tree) do
-if k==v then
-heep[k]=nil
-clearheep(k)
-end
-end
+cleartree(next.tree)
 end
 end
 --[[
