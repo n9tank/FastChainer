@@ -87,7 +87,7 @@ return deep
 end
 function show(src,out,of)
 file=io.output(os.time()..".lua")
-file:write("test={")
+file:write("t={")
 local link={}
 for k,s in pairs(out) do
 obj=src[s.index]
@@ -110,7 +110,7 @@ next=next..table.concat(link,",",1,len).."}"
 print(string.format("%d>%x=%s",s.index,s.address,next))
 file:write(next..",\n")
 end
-file:write("}\ndofile('goto.lua')")
+file:write("}dofile('goto.lua')")
 file:close()
 end
 function check(deep)

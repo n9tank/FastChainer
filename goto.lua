@@ -57,6 +57,6 @@ end
 end
 return adr
 end
-for k,v in pairs(test) do
-print(getAdr(v,xl[v[-1]][v[0]]).address)
+for k,v in pairs(t) do
+print(string.format("%x",getAdr(v,xl[v[-1]][v[0]]).address))
 end
