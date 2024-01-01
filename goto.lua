@@ -26,7 +26,7 @@ if not last then
 last={}
 tree[adr]=last
 end
-local adr={value=adr}
+adr={value=adr}
 for k,v in ipairs(list) do
 next=last[v]
 if next and next.adr then
