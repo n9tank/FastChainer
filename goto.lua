@@ -23,8 +23,7 @@ function treeCache(adr,list)
 local next
 local adr={value=adr}
 local last=tree
-for k,v in pairs(list) do
-if k>0 then
+for k,v in ipairs(list) do
 next=last[v]
 if next==nil then
 next={}
@@ -35,7 +34,6 @@ else
 adr=next.adr
 end
 last=next
-end
 end
 return adr
 end
@@ -50,10 +48,8 @@ return next
 end
 function getAdr(list,adr)
 adr={value=adr}
-for i,t in pairs(list) do
-if i>0 then
+for i,t in ipairs(list) do
 adr=adrCache(adr.value+t)
-end
 end
 return adr
 end
