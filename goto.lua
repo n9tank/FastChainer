@@ -25,13 +25,13 @@ local adr={value=adr}
 local last=tree
 for k,v in ipairs(list) do
 next=last[v]
-if next==nil then
+if next then
+adr=next.adr
+else
 next={}
 last[v]=next
 adr=gg.getValues({{address=x64(adr.value)+v,flags=x32}})[1]
 next.adr=adr
-else
-adr=next.adr
 end
 last=next
 end
@@ -40,7 +40,7 @@ end
 heep={}
 function adrCache(adr)
 local next=heep[adr]
-if next==nil then
+if not next then
 next=gg.getValues({{address=x64(adr),flags=x32}})[1]
 heep[adr]=next
 end
