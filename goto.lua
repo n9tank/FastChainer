@@ -80,7 +80,7 @@ end
 return next
 end
 function cleartree(tree)
-for k,v in pairs(next.tree) do
+for k,v in pairs(tree) do
 heep[k]=nil
 local tree=v.tree
 if tree then
