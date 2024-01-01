@@ -26,7 +26,6 @@ if not last then
 last={}
 tree[adr]=last
 end
-adr={value=adr}
 for k,v in ipairs(list) do
 next=last[v]
 if next and next.adr then
@@ -34,9 +33,10 @@ adr=next.adr
 else
 next={}
 last[v]=next
-adr=gg.getValues({{address=x64(adr.value)+v,flags=x32}})[1]
+adr=gg.getValues({{address=x64(adr)+v,flags=x32}})[1]
 next.adr=adr
 end
+adr=adr.value
 last=next
 end
 return next
