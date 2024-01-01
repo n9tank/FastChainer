@@ -106,9 +106,9 @@ len=len+1
 link[len]=v.min
 v=v.link
 end
-next=next..table.concat(link,",",1,len).."},"
+next=next..table.concat(link,",",1,len).."}"
 print(string.format("%d>%x=%s",s.index,s.address,next))
-file:write(next)
+file:write(next..",\n")
 end
 file:write("}\ndofile('goto.lua')")
 file:close()
