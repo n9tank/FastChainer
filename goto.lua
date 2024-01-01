@@ -2,7 +2,7 @@ list=gg.getRangesList("^/da*.s")
 xl={Cd={},Cb={},Xa={}}
 for k,v in pairs(list) do
 put=xl[v.state]
-if put then
+if put and v.type:sub(2,2)=="w" then
 put[v.internalName:match("[^/]+$")]=v.start
 end
 end
