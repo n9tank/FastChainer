@@ -21,8 +21,12 @@ return value
 end
 function treeCache(adr,list)
 local next
+local last=tree[adr]
+if not last then
+last={}
+tree[adr]=last
+end
 local adr={value=adr}
-local last=tree
 for k,v in ipairs(list) do
 next=last[v]
 if next and next.adr then
@@ -37,6 +41,15 @@ last=next
 end
 return next
 end
+--[[
+使用树优化你的代码，多个同路径避免重复获取。
+node=treeCache(0,{0,1,2})
+print(node.adr)
+重建树（清空所有子目标）
+node.adr=nil
+node=treeCache(0,{0,1,2})
+]]--
+--为优化程序性能请尽量避免使用堆，所以以下代码仅供测试
 heep={}
 function adrCache(adr)
 local next=heep[adr]
