@@ -51,11 +51,10 @@ node=treeCache(0,{0,1,2})
 ]]--
 heep={}
 function getheep(adr,list)
-adr={value=adr}
-local un
+local un,next
 for i,t in ipairs(list) do
-adr=x64(adr.value)+t
-local next=heep[adr]
+adr=x64(adr)+t
+next=heep[adr]
 if not next or un or next.un then
 adr=gg.getValues({{address=adr,flags=x32}})[1]
 if next.un then
@@ -63,11 +62,11 @@ un=true
 adr.un=true
 end
 heep[adr]=adr
-else
-adr=next
+next=adr
 end
+adr=adr.value
 end
-return adr
+return next
 end
 --[[
 该函数性能比tree更优秀，但是这存在一些释放的问题
