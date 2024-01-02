@@ -1,7 +1,8 @@
 --[[
 [1]=link
 [2]=next
-[3]=go
+[3]=index
+[4]=go
 ]]--
 x32=not gg.getTargetInfo().x64
 function nextlvl(old,offmax,src,deep)
@@ -44,7 +45,7 @@ ms=src[top]
 end
 if ms and adr.address>=ms.start then
 deep[#deep+1]=adr
-adr.index=top
+adr[3]=top
 end
 t=adr.address
 last=adr
@@ -84,7 +85,7 @@ file=io.output(os.time()..".lua")
 file:write("t={")
 local link={}
 for k,s in pairs(out) do
-obj=src[s.index]
+obj=src[s[3]]
 adr=s.address-(obj.start+of)
 local next
 if of==0 then
@@ -101,7 +102,7 @@ link[len]=v.min
 v=v[1]
 end
 next=next..table.concat(link,",",1,len).."}"
-print(string.format("%d>%x=%s",s.index,s.address,next))
+print(string.format("%d>%x=%s",s[3],s.address,next))
 file:write(next..",\n")
 end
 file:write("}dofile('goto.lua')")
@@ -113,7 +114,7 @@ while #list>1 do
 next=gg.getValues(list)
 list={}
 for k,s in pairs(deep) do
-v=s[3] or s
+v=s[4] or s
 if v and v[2] then
 if v==s then
 adr=k
@@ -124,13 +125,13 @@ gt=next[adr]
 if gt then
 if v.value==gt.value then
 to=v[2]
-s[3]=to
+s[4]=to
 list[to]=to
 else
 deep[k]=nil
 end
 else
-s[3]=false
+s[4]=false
 end
 end
 end
@@ -205,7 +206,7 @@ end
 end
 for k,v in pairs(gg.getRangesList("^/da*.s")) do
 if xl[v.state]==0 and v.type:sub(2,2)=="w" then
-v.index=k
+v[3]=k
 src[#src+1]=v
 end
 end
