@@ -1,9 +1,9 @@
 list=gg.getRangesList("^/da*.s")
-xl={Cd={},Cb={},Xa={}}
+xl={Cd=0,Cb=0,Xa=0}
 for k,v in pairs(list) do
-put=xl[v.state]
-if put and v.type:sub(2,2)=="w" then
-put[v.internalName:match("[^/]+$")]=v.start
+k=v.state
+if xl[k] and v.type:sub(2,2)=="w" then
+xl[k..v.internalName:match("[^/]+$")]=v.start
 end
 end
 tree={}
@@ -118,5 +118,5 @@ end
 adr=getAdr(0,{0,1,2})
 ]]--
 for k,v in pairs(t) do
-print(string.format("%x",getheep(v,xl[v[-1]][v[0]]).address))
+print(string.format("%x",getheep(v,xl[v.i]).address))
 end

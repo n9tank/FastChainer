@@ -1,48 +1,42 @@
-function bnd(old,value,offmax)
-local adr=old[value//offmax]
-while adr and value>adr.address do
-adr=adr.next
-end
-return adr
-end
+--[[
+[1]=link
+[2]=next
+[3]=go
+]]--
 x32=not gg.getTargetInfo().x64
-function x64(value)
-if x32 then
-value=value&0xffffffff
-end
-return value
-end
-function find(old,value,len)
-local eqz=bnd(old,value,len)
-if eqz then
-local off=eqz.address-value
-if off<len then
-local min=eqz.min
-if not min or off<min then
-eqz.min=off
-end
-return eqz
-end
-end
-end
 function nextlvl(old,offmax,src,deep)
 gg.internal3(offmax)
-local link
 local new=gg.getResults(100000)
 for t,adr in pairs(new) do
-local value=x64(adr.value)
+local value=adr.value
+if x32 then
+value=value&0xffffffff
 adr.value=value
-link=find(old,value,offmax)
-adr.link=link
+end
+local link=old[value//offmax]
+while link and value>link.address do
+link=link[2]
+end
+if link then
+local off=link.address-value
+if off<offmax then
+local min=link.min
+if not min or off<min then
+link.min=off
+end
+adr[1]=link
+end
+end
 end
 local list={}
-top=1
+local top=1
+local lf,rf
 ms=src[1]
 for t,adr in pairs(new) do
-link=adr.link
+link=adr[1]
 if link and link.address-adr.value==link.min then
 if last then
-last.next=adr
+last[2]=adr
 end
 while ms and adr.address>=ms['end'] do
 top=top+1
@@ -94,17 +88,17 @@ obj=src[s.index]
 adr=s.address-(obj.start+of)
 local next
 if of==0 then
-next="{[-1]='"..obj.state.."',[0]='"..obj.internalName:match("[^/]+$").."',"
+next="{i='"..obj.state..obj.internalName:match("[^/]+$").."',"
 else
 next="{"
 end
 link[1]=adr
 len=1
-v=s.link
+v=s[1]
 while v do
 len=len+1
 link[len]=v.min
-v=v.link
+v=v[1]
 end
 next=next..table.concat(link,",",1,len).."}"
 print(string.format("%d>%x=%s",s.index,s.address,next))
@@ -119,8 +113,8 @@ while #list>1 do
 next=gg.getValues(list)
 list={}
 for k,s in pairs(deep) do
-v=s.go or s
-if v and v.next then
+v=s[3] or s
+if v and v[2] then
 if v==s then
 adr=k
 else
@@ -129,14 +123,14 @@ end
 gt=next[adr]
 if gt then
 if v.value==gt.value then
-to=v.next
-s.go=to
+to=v[2]
+s[3]=to
 list[to]=to
 else
 deep[k]=nil
 end
 else
-s.go=false
+s[3]=false
 end
 end
 end
@@ -151,7 +145,7 @@ while #list>1 do
 lvl={}
 all[#all+1]=lvl
 for k,v in pairs(list) do
-go=v.next or k
+go=v[2] or k
 if go then
 put=lvl[go]
 if not put then
