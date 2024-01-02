@@ -87,14 +87,13 @@ file:write("t={")
 local link={}
 for k,s in pairs(out) do
 obj=src[s[4]]
-adr=s.address-(obj.start+of)
 local next
 if of==0 then
 next="{i='"..obj.state..obj.internalName:match("[^/]+$").."',"
 else
 next="{"
 end
-link[1]=adr
+link[1]=s.address-(obj.start+of)
 len=1
 v=s[1]
 while v do
