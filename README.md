@@ -12,7 +12,7 @@
 | 脚本 | 耗时 | 条目 |
 | --- | --- | --- |
 | Rchainer  | 42.3s | 2 |
-| FastChainer | 4.6s | 6 |
+| FastChainer | 4.1s | 2 |
 
 ## 使用
 
