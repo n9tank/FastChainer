@@ -112,11 +112,13 @@ file:close()
 end
 function check(deep)
 list=deep
-while #list>1 do
+local c=2
+while c>1 do
+c=0
 next=gg.getValues(list)
 list={}
 for k,s in pairs(deep) do
-v=s[5] or s
+v=s[6] or s
 if v and v[1] then
 if v==s then
 adr=k
@@ -126,14 +128,15 @@ end
 gt=next[adr]
 if gt then
 if v.value==gt.value then
+c=c+1
 to=v[1]
-s[5]=to
+s[6]=to
 list[to]=to
 else
 deep[k]=nil
 end
 else
-s[5]=false
+s[6]=false
 end
 end
 end
