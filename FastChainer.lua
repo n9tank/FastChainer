@@ -30,25 +30,29 @@ adr[1]=link
 end
 end
 end
-local list={}
-local top=1
-local lf,rf
-ms=src[1]
+local list,top,ed={},1,0
+local lf,rf,st,last
 for t,adr in pairs(new) do
 link=adr[1]
 if link and link.address-adr.value==link[3] then
 if last then
 last[2]=adr
 end
-while ms and adr.address>=ms['end'] do
+local t=adr.address
+if ed then
+while t>=ed do
 top=top+1
-ms=src[top]
+ed=src[top]
+if ed then
+st=ed.start
+ed=ed["end"]
 end
-if ms and adr.address>=ms.start then
+end
+if t>=st then
 deep[#deep+1]=adr
 adr[4]=top
 end
-t=adr.address
+end
 last=adr
 lf=t//offmax
 if lf==rf then
