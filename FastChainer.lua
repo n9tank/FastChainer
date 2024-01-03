@@ -39,8 +39,7 @@ if last then
 last[2]=adr
 end
 local t=adr.address
-if ed then
-while t>=ed do
+while ed and t>ed do
 top=top+1
 ed=src[top]
 if ed then
@@ -48,10 +47,9 @@ st=ed.start
 ed=ed["end"]
 end
 end
-if t>=st then
+if ed and t>=st then
 deep[#deep+1]=adr
 adr[4]=top
-end
 end
 last=adr
 lf=t//offmax
