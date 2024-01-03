@@ -91,7 +91,7 @@ for k,s in pairs(out) do
 obj=src[s[4]]
 local next
 if of==0 then
-next="{i='"..obj.state..obj.internalName:match("/lib([^/]+).so[^o]*$").."',"
+next="{i='"..obj.state..obj.internalName:match("lib([^/]+).so[^o]*$").."',"
 else
 next="{"
 end
