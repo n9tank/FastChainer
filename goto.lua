@@ -3,9 +3,10 @@ xl={Cd=0,Cb=0,Xa=0}
 for k,v in pairs(list) do
 k=v.state
 if xl[k] and v.type:sub(2,2)=="w" then
-xl[k..v.internalName:match("[^/]+$")]=v.start
+xl[k..v.internalName:match("/lib([^/]+).so[^o]*$")]=v.start
 end
 end
+print(xl)
 tree={}
 x32=gg.getTargetInfo().x64
 if x32 then
@@ -109,7 +110,6 @@ return
 end
 next=gg.getValues({{address=x64(adr)+v,flags=x32}})
 adr=next.value
-end
 end
 return next
 end
