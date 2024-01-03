@@ -6,7 +6,6 @@ if xl[k] and v.type:sub(2,2)=="w" then
 xl[k..v.internalName:match("/lib([^/]+).so[^o]*$")]=v.start
 end
 end
-print(xl)
 tree={}
 x32=gg.getTargetInfo().x64
 if x32 then
