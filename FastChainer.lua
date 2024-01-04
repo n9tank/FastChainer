@@ -9,9 +9,6 @@ x32=not gg.getTargetInfo().x64
 function bnd(old,value,offmax)
 offmax=value//offmax
 local link=old[offmax]
-if not link then
-link=old[offmax+1]
-end
 if link then
 if value<=link.address then
 return link
@@ -46,6 +43,8 @@ return link
 end
 end
 end
+else
+return old[offmax+1]
 end
 end
 function nextlvl(old,offmax,src,deep)
