@@ -7,7 +7,11 @@
 ]]--
 x32=not gg.getTargetInfo().x64
 function bnd(old,value,offmax)
-local link=old[value//offmax]
+offmax=value//offmax
+local link=old[offmax]
+if not link then
+link=old[offmax+1]
+end
 if link then
 if value<=link.address then
 return link
