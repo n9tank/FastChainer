@@ -46,6 +46,7 @@ end
 end
 function nextlvl(old,offmax,src,deep)
 gg.internal3(offmax)
+gg.searchFuzzy("0",gg.SIGN_FUZZY_EQUAL)
 local new=gg.getResults(100000)
 for t,adr in pairs(new) do
 local value=adr.value
