@@ -6,19 +6,25 @@
 [5]=index
 ]]--
 x32=not gg.getTargetInfo().x64
-function bnd(old,value,offmax)
-offmax=value//offmax
-local link=old[offmax]
-if link then
-if value<=link.address then
-return link
+function nextlvl(old,offmax,src,deep)
+gg.internal3(offmax)
+local new=gg.getResults(100000)
+for t,adr in pairs(new) do
+local value=adr.value
+if x32 then
+value=value&0xffffffff
+adr.value=value
 end
-local ed=link[3]
+local ed=value//offmax
+local link=old[ed]
+if link then
+if value>link.address then
+ed=link[3]
 local st,ed=ed&0xffffffff,ed>>32
 local to=old[ed]
 if not to or value>=to.address then
-return link[2]
-end
+link=link[2]
+else
 local md,mid=0,-2
 st=st+1
 while st<=ed do
@@ -26,9 +32,9 @@ md=(st+ed)//2
 if math.abs(md-mid)<=1 then
 link=old[md]
 if value>link.address then
-return old[md+1]
+link=old[md+1]
 end
-return link
+break
 end
 mid=md
 link=old[md]
@@ -39,27 +45,18 @@ else
 if value>to then
 st=mid+1
 else
-return link
+break
+end
+end
 end
 end
 end
 else
-return old[offmax+1]
+link=old[ed+1]
 end
-end
-function nextlvl(old,offmax,src,deep)
-gg.internal3(offmax)
-local new=gg.getResults(100000)
-for t,adr in pairs(new) do
-local value=adr.value
-if x32 then
-value=value&0xffffffff
-adr.value=value
-end
-local link=bnd(old,value,offmax)
 if link then
 local off=link.address-value
-if off<offmax then
+if off>=0 and  off<offmax then
 local min=link[4]
 if not min or off<min then
 link[4]=off
