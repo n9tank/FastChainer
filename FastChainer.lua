@@ -4,18 +4,16 @@
 [3]=len
 [4]=min
 [5]=index
-[6]=go
 ]]--
 x32=not gg.getTargetInfo().x64
 function bnd(old,value,offmax)
-local st=value//offmax
-local link=old[st]
+local link=old[value//offmax]
 if link then
-local st=link.address
-if value<=st then
+if value<=link.address then
 return link
 end
 local ed=link[3]
+local st,ed=ed&0xffffffff,ed>>32
 local to=old[ed]
 if not to or value>=to.address then
 return link[2]
@@ -67,9 +65,9 @@ adr[1]=link
 end
 end
 end
-local list,top,ed={},1,0
-local lf,rf,st,last,lt
-for t,adr in pairs(new) do
+local list,top,ed,lt,rg={},1,0,0,gg.getValuesRange(new)
+local lf,rf,st,last,rt
+for k,adr in pairs(new) do
 link=adr[1]
 if link and link.address-adr.value==link[4] then
 local t=adr.address
@@ -84,25 +82,28 @@ end
 if ed and t>=st then
 deep[#deep+1]=adr
 adr[5]=top
-end
+else
+if not (xl and xl[rg[k]]) then
 lf=t//offmax
 if lf==rf then
 lt=lt+1
 list[lt]=adr
 else
 if last then
-last[3]=lt
+last[3]=lt<<32|rt
 last[2]=adr
 end
+rt=lt+1
 last=adr
 list[lf]=adr
-lt=t
 end
 rf=lf
 end
 end
+end
+end
 if last then
-last[3]=lt
+last[3]=lt<<32|rt
 end
 return list
 end
@@ -155,34 +156,40 @@ file:close()
 end
 function check(deep)
 list=deep
-local c=2
+local c=2,eq
 while c>1 do
 c=0
 next=gg.getValues(list)
 list={}
 for k,s in pairs(deep) do
-v=s[6] or s
-if v and v[1] then
-if v==s then
-adr=k
+local v
+if eq then
+v=s[2]
 else
+v=s
+end
+if v and v[1] then
+if eq then
 adr=v
+else
+adr=k
 end
 gt=next[adr]
 if gt then
 if v.value==gt.value then
 c=c+1
 to=v[1]
-s[6]=to
+s[2]=to
 list[to]=to
 else
 deep[k]=nil
 end
 else
-s[6]=false
+s[2]=false
 end
 end
 end
+eq=0
 end
 end
 data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
@@ -190,6 +197,7 @@ max=tonumber(data[2])
 offmax=tonumber(data[3])
 old=gg.getResults(1)
 src=gg.getSelectedListItems()
+t=os.clock()
 if #src>0 then
 for k,v in pairs(src) do
 v=v.address
@@ -226,6 +234,7 @@ end
 end
 else
 out=lvl(max,offmax,src,tonumber(data[4]))
+print(os.clock()-t)
 check(out)
 if of~=0 or data[1] then
 show(src,out,of)
