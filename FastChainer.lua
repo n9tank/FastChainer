@@ -65,7 +65,11 @@ adr[1]=link
 end
 end
 end
-local list,top,ed,lt,rg={},1,0,0,gg.getValuesRange(new)
+local list,top,ed,lt={},1,0,0
+local rg
+if xl then
+rg=gg.getValuesRange(new)
+end
 local lf,rf,st,last,rt
 for k,adr in pairs(new) do
 link=adr[1]
