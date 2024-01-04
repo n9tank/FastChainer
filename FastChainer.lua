@@ -85,7 +85,7 @@ if last then
 last[3]=lt<<32|rt
 last[2]=adr
 end
-rt=lt+1.
+rt=lt+1
 last=adr
 list[lf]=adr
 end
