@@ -21,8 +21,7 @@ if link then
 if value>link.address then
 ed=link[3]
 local st,ed=ed&0xffffffff,ed>>32
-local to=old[ed]
-if not to or value>=to.address then
+if st>=ed or value>old[ed].address then
 link=link[2]
 else
 local md
@@ -86,7 +85,7 @@ if last then
 last[3]=lt<<32|rt
 last[2]=adr
 end
-rt=lt+1
+rt=lt+1.
 last=adr
 list[lf]=adr
 end
