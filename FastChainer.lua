@@ -25,29 +25,23 @@ local to=old[ed]
 if not to or value>=to.address then
 link=link[2]
 else
-local md,mid=0,-2
-st=st+1
+local md
 while st<=ed do
-md=(st+ed)//2
-if math.abs(md-mid)<=1 then
-link=old[md]
-if value>link.address then
-link=old[md+1]
-end
-break
-end
-mid=md
+md=(st+ed)>>1
 link=old[md]
 to=link.address
 if value<to then
-ed=mid-1
+ed=md-1
 else
 if value>to then
-st=mid+1
+st=md+1
 else
 break
 end
 end
+end
+if value>to then
+link=old[md+1]
 end
 end
 end
