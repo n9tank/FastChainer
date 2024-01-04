@@ -66,10 +66,6 @@ end
 end
 end
 local list,top,ed,lt={},1,0,0
-local rg
-if xl then
-rg=gg.getValuesRange(new)
-end
 local lf,rf,st,last,rt
 for k,adr in pairs(new) do
 link=adr[1]
@@ -87,7 +83,6 @@ if ed and t>=st then
 deep[#deep+1]=adr
 adr[5]=top
 else
-if not (xl and xl[rg[k]]) then
 lf=t//offmax
 if lf==rf then
 lt=lt+1
@@ -102,7 +97,6 @@ last=adr
 list[lf]=adr
 end
 rf=lf
-end
 end
 end
 end
