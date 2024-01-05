@@ -109,7 +109,7 @@ return deep
 end
 old=list
 if #dump==0 or i~=max then
-new={}
+local new={}
 for k,v in pairs(old) do
 new[#new+1]=v
 end
@@ -131,8 +131,8 @@ else
 next="{"
 end
 link[1]=s.address-(obj.start+of)
-len=1
-v=s[1]
+local len=1
+local v=s[1]
 while v do
 len=len+1
 link[len]=v[4]
@@ -220,7 +220,7 @@ local adr=old.address
 out={}
 for k,v in pairs(xl) do
 if v.start<=adr and v['end']>=adr then
-out[#list+1]=v
+out[#out+1]=v
 end
 end
 else
