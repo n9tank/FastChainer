@@ -24,7 +24,7 @@ local st,ed=ed&0xffffffff,ed>>32
 if st>ed or value>old[ed].address then
 link=link[2]
 else
-local md
+local md,to
 while st<=ed do
 md=(st+ed)>>1
 link=old[md]
@@ -61,7 +61,7 @@ end
 local list,top,ed,lt={},1,0,0
 local lf,rf,st,last,rt
 for k,adr in pairs(new) do
-link=adr[1]
+local link=adr[1]
 if link and link.address-adr.value==link[4] then
 local t=adr.address
 while ed and t>ed do
@@ -119,11 +119,11 @@ end
 return deep
 end
 function show(src,out,of)
-file=io.output(os.time()..".lua")
+local file=io.output(os.time()..".lua")
 file:write("t={")
 local link={}
 for k,s in pairs(out) do
-obj=src[s[5]]
+local obj=src[s[5]]
 local next
 if of==0 then
 next="{i='"..obj.state..obj.internalName:match("lib([^/]+).so[^o]*$").."',"
@@ -146,8 +146,7 @@ file:write("}dofile('goto.lua')")
 file:close()
 end
 function check(deep)
-list=deep
-local c=2,eq
+local list,c,eq=deep,2
 while c>1 do
 c=0
 next=gg.getValues(list)
@@ -160,6 +159,7 @@ else
 v=s
 end
 if v and v[1] then
+local adr,gt
 if eq then
 adr=v
 else
@@ -169,7 +169,7 @@ gt=next[adr]
 if gt then
 if v.value==gt.value then
 c=c+1
-to=v[1]
+local to=v[1]
 s[2]=to
 list[to]=to
 else
