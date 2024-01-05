@@ -149,7 +149,7 @@ function check(deep)
 local list,c,eq=deep,2
 while c>1 do
 c=0
-next=gg.getValues(list)
+local next=gg.getValues(list)
 list={}
 for k,s in pairs(deep) do
 local v
@@ -183,14 +183,15 @@ end
 eq=0
 end
 end
-data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
-max=tonumber(data[2])
-offmax=tonumber(data[3])
-old=gg.getResults(1)
-src=gg.getSelectedListItems()
+local data=gg.prompt({"寻找基址","深度","最大偏移","最大条目"},{true,1,1000,10},{"checkbox"})
+local max=tonumber(data[2])
+local offmax=tonumber(data[3])
+local old=gg.getResults(1)
+local src=gg.getSelectedListItems()
+local xl,of,tag,out
 if #src>0 then
 for k,v in pairs(src) do
-v=v.address
+local v=v.address
 src[k]={start=v-offmax,["end"]=v+offmax}
 end
 of=offmax
@@ -215,9 +216,9 @@ end
 end
 end
 if tag then
-adr=old.address
-for k,v in pairs(xl) do
+local adr=old.address
 out={}
+for k,v in pairs(xl) do
 if v.start<=adr and v['end']>=adr then
 out[#list+1]=v
 end
@@ -225,7 +226,7 @@ end
 else
 out=lvl(max,offmax,src,tonumber(data[4]))
 check(out)
+end
 if of~=0 or data[1] then
 show(src,out,of)
-end
 end
