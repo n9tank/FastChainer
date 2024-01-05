@@ -202,7 +202,7 @@ of=0
 src={}
 xl={["Cd"]=8,["Cb"]=16,["Xa"]=16384}
 tag=xl[gg.getValuesRange(old)[1]]
-r=tag or gg.getRanges()
+local r=tag or gg.getRanges()
 for k,v in pairs(xl) do
 if r&v~=0 then
 xl[k]=0
