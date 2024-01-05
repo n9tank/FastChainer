@@ -21,7 +21,7 @@ if link then
 if value>link.address then
 ed=link[3]
 local st,ed=ed&0xffffffff,ed>>32
-if st>=ed or value>old[ed].address then
+if st>ed or value>old[ed].address then
 link=link[2]
 else
 local md
