@@ -5,14 +5,13 @@
 [4]=min
 [5]=index
 ]]--
-x32=not gg.getTargetInfo().x64
+local x32=not gg.getTargetInfo().x64
 function nextlvl(old,offmax,src,deep)
 gg.internal3(offmax)
 local new=gg.getResults(100000)
-local i32=x32
 for t,adr in pairs(new) do
 local value=adr.value
-if i32 then
+if x32 then
 value=value&0xffffffff
 adr.value=value
 end
