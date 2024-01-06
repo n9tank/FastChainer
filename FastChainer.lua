@@ -51,10 +51,10 @@ if link then
 local off=link.address-value
 if off>=0 and  off<offmax then
 local min=link[4]
-if not min or off<min then
+if not min or off<=min then
+adr[1]=link
 link[4]=off
 end
-adr[1]=link
 end
 end
 end
