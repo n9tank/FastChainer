@@ -199,7 +199,7 @@ else
 if data[1] then
 of=0
 src={}
-xl={["Cd"]=8,["Cb"]=16,["Xa"]=16384}
+xl={["Cd"]=8,["Cb"]=16}
 tag=xl[gg.getValuesRange(old)[1]]
 local r=tag or gg.getRanges()
 for k,v in pairs(xl) do
