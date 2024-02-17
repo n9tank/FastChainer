@@ -24,23 +24,15 @@ local st,ed=ed&0xffffffff,ed>>32
 if st>ed or value>old[ed].address then
 link=link[2]
 else
-local md,to
-while st<=ed do
+local md
+while st<ed do
 md=(st+ed)>>1
 link=old[md]
-to=link.address
-if value<to then
-ed=md-1
+if value>=link.address then
+ed=md
 else
-if value>to then
 st=md+1
-else
-break
 end
-end
-end
-if value>to then
-link=old[md+1]
 end
 end
 end
