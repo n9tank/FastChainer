@@ -1,3 +1,26 @@
+function cmpout(eqz)
+where=gg.getFile():match(".*/")
+cmp=gg.prompt({"文件1","文件2"},{where,where},{"file","file"})
+file=io.input(cmp[1])
+out=io.output("cmp_"..os.time()..".obj")
+num2=-1/0
+for line in io.lines(cmp[2]) do
+num=tonumber(line:match("[^ ]+"))
+while num>num2 do
+str=file:read("*l")
+if str then
+num2=tonumber(str:match("[^ ]+"))
+else num2=1/0
+end
+end
+if num==num2 and (str~=line)==eqz then
+out:write(line)
+out:write("\n")
+end
+end
+file:close()
+out:close()
+end
 sw=gg.choice({"提取","相同截取","提取不同"})
 if sw==1 then
 list=gg.getSelectedListItems()
@@ -20,27 +43,4 @@ end
 file:close()
 else
 cmpout(sw==2)
-end
-end
-function cmpout(eqz)
-where=gg.getFile():match(".*/")
-cmp=gg.prompt({"文件1","文件2"},{where,where},{"file","file"})
-file=io.input(cmp[1])
-out=io.output("cmp_"..os.time()..".obj")
-num2=-1/0
-for line in io.lines(cmp[2]) do
-num=tonumber(line:match("[^ ]+"))
-while num>num2 do
-str=file:read("*l")
-if str then
-num2=tonumber(str:match("[^ ]+"))
-else num2=1/0
-end
-end
-if num==num2 and (str~=line)==eqz then
-out:write(line)
-end
-end
-file:close()
-out:close()
 end
