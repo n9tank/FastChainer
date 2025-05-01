@@ -37,24 +37,17 @@ end
 else
 local st=ed&0xffffffff
 ed=(ed>>32)
-local md,next
-while st<=ed do
+local md
+while st<ed do
 md=(st+ed)>>1
 link=old[md]
-next=link.address
-if next<value then
+if link.address<value then
 st=md+1
 else
-if next>value then
-ed=md-1
-else
-break
+ed=md
 end
 end
-end
-if next<value then
-link=old[md+1]
-end
+link=old[ed]
 end
 if link then
 local off=link.address-value
